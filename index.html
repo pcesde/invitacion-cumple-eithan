@@ -6,25 +6,51 @@
 <title>Invitación Cumpleaños</title>
 
 <style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
 body{
-    margin:0;
     font-family: Arial;
-    background:#000;
+    background: linear-gradient(180deg,#000,#111);
     color:white;
-    text-align:center;
+    overflow-x:hidden;
 }
 
+/* CONTENEDOR */
 .container{
     max-width:500px;
     margin:auto;
 }
 
+/* ANIMACIÓN ENTRADA */
+.fade-in{
+    opacity:0;
+    transform:translateY(30px);
+    animation:fadeUp 1.2s ease forwards;
+}
+
+.delay1{animation-delay:0.3s;}
+.delay2{animation-delay:0.6s;}
+.delay3{animation-delay:0.9s;}
+
+@keyframes fadeUp{
+    to{opacity:1; transform:translateY(0);}
+}
+
 /* IMAGEN PRINCIPAL */
 .hero{
     width:100%;
+    border-radius:0 0 20px 20px;
 }
 
-/* GALERIA */
+/* TEXTO */
+.title{
+    text-align:center;
+    font-size:22px;
+    margin:15px;
+    letter-spacing:1px;
+}
+
+/* GALERÍA */
 .gallery{
     display:flex;
     overflow-x:auto;
@@ -34,7 +60,12 @@ body{
 
 .gallery img{
     height:150px;
-    border-radius:10px;
+    border-radius:12px;
+    transition:0.3s;
+}
+
+.gallery img:hover{
+    transform:scale(1.05);
 }
 
 /* BOTONES */
@@ -52,25 +83,80 @@ button{
     flex:1;
     padding:15px;
     border:none;
-    border-radius:10px;
+    border-radius:12px;
     font-size:16px;
     font-weight:bold;
+    backdrop-filter:blur(10px);
 }
 
-.map{background:#4CAF50;color:white;}
-.wa{background:#25D366;color:white;}
+/* EFECTO GLASS */
+.map{
+    background:rgba(76,175,80,0.8);
+    color:white;
+}
+
+.wa{
+    background:rgba(37,211,102,0.8);
+    color:white;
+}
+
+/* BOTON MUSICA */
+.music{
+    position:fixed;
+    top:10px;
+    right:10px;
+    background:rgba(255,255,255,0.2);
+    border:none;
+    padding:12px;
+    border-radius:50%;
+    color:white;
+    backdrop-filter:blur(10px);
+}
+
+/* OVERLAY DE ENTRADA */
+.overlay{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:black;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    z-index:999;
+}
+
+.enter-btn{
+    padding:15px 30px;
+    font-size:18px;
+    border:none;
+    border-radius:10px;
+    background:white;
+    color:black;
+    font-weight:bold;
+}
 </style>
 </head>
 
 <body>
 
+<!-- 🎬 PANTALLA DE ENTRADA -->
+<div class="overlay" id="overlay">
+    <h2 style="margin-bottom:20px;">🎉 Estás invitado</h2>
+    <button class="enter-btn" onclick="entrar()">Entrar</button>
+</div>
+
 <div class="container">
 
-<!-- 🔥 TU FOTO PRINCIPAL -->
-<img src="1.png" class="hero">
+<img src="1.png" class="hero fade-in">
 
-<!-- 📸 GALERIA -->
-<div class="gallery">
+<div class="title fade-in delay1">
+    🎂 Cumpleaños Especial
+</div>
+
+<div class="gallery fade-in delay2">
     <img src="2.png">
     <img src="3.png">
     <img src="4.png">
@@ -78,26 +164,51 @@ button{
 
 </div>
 
-<!-- 🔘 BOTONES -->
-<div class="buttons">
+<!-- BOTONES -->
+<div class="buttons fade-in delay3">
     <button class="map" onclick="irMapa()">📍 Ubicación</button>
     <button class="wa" onclick="irWhatsApp()">💬 Confirmar</button>
 </div>
 
-<script>
+<!-- MUSICA -->
+<button class="music" onclick="toggleMusic()">🎵</button>
 
-/* 📍 GOOGLE MAPS */
+<audio id="audio" loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+let audio = document.getElementById("audio");
+
+/* ENTRADA PREMIUM */
+function entrar(){
+    document.getElementById("overlay").style.display = "none";
+    audio.play();
+}
+
+/* BOTONES */
 function irMapa(){
     window.open("https://maps.app.goo.gl/9MVH4WbjdRik2xXS7","_blank");
 }
 
-/* 💬 WHATSAPP */
 function irWhatsApp(){
     let mensaje = "Hola! Confirmo mi asistencia al cumpleaños 🎉";
     let url = "https://wa.me/595981011531?text=" + encodeURIComponent(mensaje);
     window.open(url,"_blank");
 }
 
+/* CONTROL MUSICA */
+function toggleMusic(){
+    if(audio.paused){
+        audio.play();
+    }else{
+        audio.pause();
+    }
+}
+
+/* PAUSAR AL SALIR */
+window.addEventListener("blur", () => audio.pause());
+window.addEventListener("beforeunload", () => audio.pause());
 </script>
 
 </body>
