@@ -1,24 +1,26 @@
 <!DOCTYPE html>
+
 <html lang="es">
 <head>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>1er añito de Eithan</title>
+<title>🎉 Eithan cumple 1 añito</title>
 
-<!-- WHATSAPP / OPEN GRAPH -->
-<meta property="og:title" content="¡Invitación al cumple de Eithan! 🎁🎀">
-<meta property="og:description"
-content="Te invitamos a sumarte a este gran día. Ingresa aquí para ver todos los detalles 👇">
+<!-- OPEN GRAPH PRO (WHATSAPP / FACEBOOK) -->
 
-<meta property="og:image"
-content="https://pcesde.github.io/invitaci%C3%B3n-cumple-eithan/preview.jpg">
-
+<meta property="og:title" content="🎉 ¡Eithan cumple 1 añito! 🐒">
+<meta property="og:description" content="Estás invitado a celebrar este día especial 🎂👇">
+<meta property="og:image" content="https://raw.githubusercontent.com/pcesde/invitacion-cumple-eithan/main/preview.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://pcesde.github.io/invitacion-cumple-eithan/">
 <meta property="og:type" content="website">
 
-<meta property="og:url"
-content="https://pcesde.github.io/invitaci%C3%B3n-cumple-eithan/">
+<!-- MEJORA MOBILE -->
+
+<meta name="theme-color" content="#000000">
 
 <style>
 
@@ -43,18 +45,20 @@ height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-background:#000;
+background:radial-gradient(circle,#111,#000);
 z-index:9999;
 transition:opacity 0.6s ease;
 }
 
 .boton-ingresar{
-padding:16px 30px;
+padding:18px 34px;
 border:none;
-border-radius:30px;
-font-size:16px;
+border-radius:40px;
+font-size:18px;
 font-weight:bold;
 cursor:pointer;
+background:linear-gradient(135deg,#FFD54F,#FFB300);
+box-shadow:0 10px 30px rgba(0,0,0,0.5);
 }
 
 /* GALERIA */
@@ -101,10 +105,7 @@ display:flex;
 flex-direction:column;
 align-items:center;
 justify-content:center;
-}
-
-.btn.wa span{
-font-size:10px;
+box-shadow:0 10px 25px rgba(0,0,0,0.4);
 }
 
 /* UBICACIÓN */
@@ -121,13 +122,6 @@ background:linear-gradient(135deg,#4285F4,#5BA7FF);
 box-shadow:0 10px 25px rgba(0,0,0,0.35);
 }
 
-.texto-lugar{
-text-align:left;
-font-size:13px;
-font-weight:bold;
-line-height:1.2;
-}
-
 /* COMO LLEGAR */
 .btn.ruta{
 display:flex;
@@ -142,6 +136,12 @@ background:linear-gradient(135deg,#FF9800,#FFB74D);
 box-shadow:0 10px 25px rgba(0,0,0,0.35);
 }
 
+.texto-lugar{
+font-size:13px;
+font-weight:bold;
+line-height:1.2;
+}
+
 </style>
 
 </head>
@@ -149,27 +149,24 @@ box-shadow:0 10px 25px rgba(0,0,0,0.35);
 <body>
 
 <!-- BOTONES -->
+
 <div class="botones">
 
-<button class="btn wa" onclick="whatsapp()">
-💬 <span>OK</span>
-</button>
+<button class="btn wa" onclick="whatsapp()">💬</button>
 
 <button class="btn mapa" onclick="ubicacion()">
 📍
 <div class="texto-lugar">
-ScutiPARK<br>
-Quinta Villamayor - San Lorenzo
+ScutiPARK<br>San Lorenzo
 </div>
 </button>
 
-<button class="btn ruta" onclick="comoLlegar()">
-🧭
-</button>
+<button class="btn ruta" onclick="comoLlegar()">🧭</button>
 
 </div>
 
 <!-- INICIO -->
+
 <div id="pantallaInicio" class="pantalla-inicio">
 <button class="boton-ingresar" onclick="comenzarInvitacion()">
 ABRIR INVITACIÓN 🎉
@@ -177,18 +174,18 @@ ABRIR INVITACIÓN 🎉
 </div>
 
 <!-- AUDIO -->
-<audio id="musicaFondo" loop preload="auto">
+
+<audio id="musicaFondo" loop>
 <source src="musica-bautismo.mp3" type="audio/mpeg">
 </audio>
 
 <!-- GALERIA -->
-<div class="galeria">
 
+<div class="galeria">
 <div class="imagen"><img src="./1.svg"></div>
 <div class="imagen"><img src="./2.svg"></div>
 <div class="imagen"><img src="./3.svg"></div>
 <div class="imagen"><img src="./4.svg"></div>
-
 </div>
 
 <script>
@@ -206,7 +203,8 @@ pantalla.style.display = "none";
 document.body.style.overflow = "auto";
 },600);
 
-audio.currentTime = 0;
+// FIX AUDIO MOBILE
+audio.muted = false;
 audio.play().catch(()=>{});
 
 }
@@ -220,7 +218,7 @@ audio.play().catch(()=>{});
 });
 
 function whatsapp(){
-let mensaje="Confirmo asistencia al cumpleaños. Mi nombre es:";
+let mensaje="Hola! Confirmo asistencia al cumpleaños de Eithan 🎉 Mi nombre es:";
 window.open("https://wa.me/595981011531?text="+encodeURIComponent(mensaje));
 }
 
@@ -229,7 +227,7 @@ window.open("https://maps.app.goo.gl/o5QvAw4BDHEiffHUA");
 }
 
 function comoLlegar(){
-let destino="ScutiPARK Quinta Villamayor San Lorenzo Paraguay MFPM+P74";
+let destino="ScutiPARK San Lorenzo Paraguay";
 let url="https://www.google.com/maps/dir/?api=1&destination="+encodeURIComponent(destino);
 window.open(url);
 }
