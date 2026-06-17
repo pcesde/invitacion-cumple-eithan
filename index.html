@@ -7,28 +7,18 @@
 
 <title>1er añito de Eithan</title>
 
-<!-- WHATSAPP -->
-<meta property="og:title" content="¡Invitación al cumple de Eithan! 🎁">
+<!-- WHATSAPP / OPEN GRAPH -->
+<meta property="og:title" content="¡Invitación al cumple de Eithan! 🎁🎀">
 <meta property="og:description"
 content="Te invitamos a sumarte a este gran día. Ingresa aquí para ver todos los detalles 👇">
 
 <meta property="og:image"
-content="https://pcesde.github.io/invitación-cumple-eithan/preview.jpg" />
+content="https://pcesde.github.io/invitaci%C3%B3n-cumple-eithan/preview.jpg">
 
-<meta property="og:image:type"
-content="image/jpeg" />
-
-<meta property="og:image:width"
-content="1200" />
-
-<meta property="og:image:height"
-content="630" />
-
-<meta property="og:type"
-content="website" />
+<meta property="og:type" content="website">
 
 <meta property="og:url"
-content="https://pcesde.github.io/invitación-cumple-eithan/" />
+content="https://pcesde.github.io/invitaci%C3%B3n-cumple-eithan/">
 
 <style>
 
@@ -43,7 +33,7 @@ font-family:Arial,sans-serif;
 overflow:hidden;
 }
 
-/* Pantalla inicio */
+/* PANTALLA INICIO */
 .pantalla-inicio{
 position:fixed;
 top:0;
@@ -55,7 +45,7 @@ justify-content:center;
 align-items:center;
 background:#000;
 z-index:9999;
-transition:.8s;
+transition:opacity 0.6s ease;
 }
 
 .boton-ingresar{
@@ -97,7 +87,7 @@ gap:12px;
 z-index:999;
 }
 
-/* WhatsApp */
+/* WHATSAPP */
 .btn.wa{
 background:#25D366;
 width:65px;
@@ -117,7 +107,7 @@ justify-content:center;
 font-size:10px;
 }
 
-/* Ubicación */
+/* UBICACIÓN */
 .btn.mapa{
 display:flex;
 align-items:center;
@@ -131,10 +121,6 @@ background:linear-gradient(135deg,#4285F4,#5BA7FF);
 box-shadow:0 10px 25px rgba(0,0,0,0.35);
 }
 
-.btn.mapa:active{
-transform:scale(.95);
-}
-
 .texto-lugar{
 text-align:left;
 font-size:13px;
@@ -142,7 +128,7 @@ font-weight:bold;
 line-height:1.2;
 }
 
-/* Cómo llegar */
+/* COMO LLEGAR */
 .btn.ruta{
 display:flex;
 align-items:center;
@@ -154,10 +140,6 @@ cursor:pointer;
 color:white;
 background:linear-gradient(135deg,#FF9800,#FFB74D);
 box-shadow:0 10px 25px rgba(0,0,0,0.35);
-}
-
-.btn.ruta:active{
-transform:scale(.95);
 }
 
 </style>
@@ -177,12 +159,12 @@ transform:scale(.95);
 📍
 <div class="texto-lugar">
 ScutiPARK<br>
-MFPM+P74 Quinta Villamayor, San Lorenzo 111405
+Quinta Villamayor - San Lorenzo
 </div>
 </button>
 
 <button class="btn ruta" onclick="comoLlegar()">
-🧭 Cómo llegar
+🧭
 </button>
 
 </div>
@@ -214,9 +196,19 @@ ABRIR INVITACIÓN 🎉
 const audio = document.getElementById("musicaFondo");
 
 function comenzarInvitacion(){
-document.getElementById("pantallaInicio").style.display="none";
-document.body.style.overflow="auto";
+
+const pantalla = document.getElementById("pantallaInicio");
+
+pantalla.style.opacity = "0";
+
+setTimeout(()=>{
+pantalla.style.display = "none";
+document.body.style.overflow = "auto";
+},600);
+
+audio.currentTime = 0;
 audio.play().catch(()=>{});
+
 }
 
 document.addEventListener("visibilitychange",()=>{
@@ -237,9 +229,7 @@ window.open("https://maps.app.goo.gl/o5QvAw4BDHEiffHUA");
 }
 
 function comoLlegar(){
-let destino="ScutiPARK
-MFPM+P74 Quinta Villamayor, San Lorenzo 111405
-";
+let destino="ScutiPARK Quinta Villamayor San Lorenzo Paraguay MFPM+P74";
 let url="https://www.google.com/maps/dir/?api=1&destination="+encodeURIComponent(destino);
 window.open(url);
 }
