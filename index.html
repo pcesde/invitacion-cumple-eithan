@@ -29,9 +29,9 @@ section{
 /* HERO */
 .hero{
     background:url("1.jpg") center/cover no-repeat;
+    position:relative;
 }
 
-/* OVERLAY OSCURO */
 .hero::before{
     content:"";
     position:absolute;
@@ -40,7 +40,7 @@ section{
     background:rgba(0,0,0,0.5);
 }
 
-/* TEXTO */
+/* TEXTOS */
 h1{
     font-size:34px;
     z-index:2;
@@ -62,17 +62,49 @@ p{
     transform:translateY(0);
 }
 
-/* GALERÍA */
+/* GALERÍA PRO */
+.gallery-container{
+    position:relative;
+    overflow:hidden;
+    width:100%;
+}
+
 .gallery{
     display:flex;
-    gap:12px;
     overflow-x:auto;
-    padding:10px;
+    scroll-snap-type:x mandatory;
+    scroll-behavior:smooth;
 }
 
 .gallery img{
-    height:180px;
+    width:80%;
+    margin:10px;
     border-radius:15px;
+    scroll-snap-align:center;
+    transition:0.3s;
+}
+
+.gallery img:active{
+    transform:scale(1.1);
+}
+
+/* DOTS */
+.dots{
+    text-align:center;
+    margin-top:10px;
+}
+
+.dots span{
+    display:inline-block;
+    width:8px;
+    height:8px;
+    background:#aaa;
+    margin:5px;
+    border-radius:50%;
+}
+
+.dots .active{
+    background:white;
 }
 
 /* BOTONES */
@@ -88,7 +120,7 @@ button{
 .map{background:#4CAF50;color:white;}
 .wa{background:#25D366;color:white;}
 
-/* ENTRADA */
+/* OVERLAY */
 .overlay{
     position:fixed;
     width:100%;
@@ -100,7 +132,28 @@ button{
     flex-direction:column;
     z-index:999;
 }
+.countdown{
+    display:flex;
+    gap:15px;
+    margin-top:20px;
+}
 
+.countdown div{
+    background:rgba(255,255,255,0.1);
+    padding:15px;
+    border-radius:12px;
+    min-width:70px;
+}
+
+.countdown span{
+    font-size:28px;
+    font-weight:bold;
+    display:block;
+}
+
+.countdown p{
+    font-size:12px;
+}
 .enter{
     padding:15px 30px;
     font-size:18px;
@@ -112,7 +165,7 @@ button{
 
 <body>
 
-<!-- PANTALLA INICIAL -->
+<!-- ENTRADA -->
 <div class="overlay" id="overlay">
     <h2>🌴 Bienvenido a la Jungla</h2>
     <button class="enter" onclick="entrar()">Entrar</button>
@@ -121,47 +174,66 @@ button{
 <!-- PORTADA -->
 <section class="hero">
     <h1 class="fade">🎉 Cumpleaños Salvaje</h1>
-    <p class="fade">Prepárate para una noche inolvidable</p>
+    <p class="fade">Prepárate para una aventura inolvidable</p>
 </section>
 
 <!-- INFO -->
 <section>
     <h2 class="fade">Estás Invitado</h2>
-    <p class="fade">Una fiesta en la jungla te espera 🐆</p>
+    <section>
+    <h2 class="fade">Falta poco para la aventura 🌴</h2>
+
+    <div id="countdown" class="countdown fade">
+        <div><span id="days">0</span><p>Días</p></div>
+        <div><span id="hours">0</span><p>Horas</p></div>
+        <div><span id="minutes">0</span><p>Min</p></div>
+        <div><span id="seconds">0</span><p>Seg</p></div>
+    </div>
+
+</section>
+    
+    <p class="fade">Ven a celebrar este día especial 🐆</p>
 </section>
 
-<!-- GALERÍA CON TUS FOTOS -->
+<!-- GALERÍA PRO -->
 <section>
     <h2 class="fade">Galería</h2>
-    <div class="gallery fade">
-        <img src="2.jpg">
-        <img src="3.jpg">
-        <img src="4.jpg">
-        <img src="5.jpg">
-        <img src="6.jpg">
-        <img src="7.jpg">
-        <img src="9.jpg">
-        <img src="10.jpg">
-        <img src="11.jpg">
-        <img src="12.jpg">
-        <img src="13.jpg">
-        <img src="14.jpg">
-        <img src="15.jpg">
-        <img src="16.jpg">
-        <img src="17.jpg">
-        <img src="18.jpg">
-        <img src="19.jpg">
-        <img src="20.jpg">
-        <img src="21.jpg">
-        <img src="22.jpg">
-        <img src="23.jpg">
-        <img src="24.jpg">
-        <img src="25.jpg">
-        <img src="26.jpg">
-        <img src="27.jpg">
-        <img src="28.jpg">
-        <img src="29.jpg">
+
+    <div class="gallery-container fade">
+        <div class="gallery" id="gallery">
+            <img src="2.jpg">
+            <img src="3.jpg">
+            <img src="4.jpg">
+            <img src="5.jpg">
+            <img src="6.jpg">
+            <img src="7.jpg">
+            <img src="8.jpg">
+            <img src="9.jpg">
+            <img src="10.jpg">
+            <img src="11.jpg">
+            <img src="12.jpg">
+            <img src="13.jpg">
+            <img src="14.jpg">
+            <img src="15.jpg">
+            <img src="16.jpg">
+            <img src="17.jpg">
+            <img src="18.jpg">
+            <img src="19.jpg">
+            <img src="20.jpg">
+            <img src="21.jpg">
+            <img src="22.jpg">
+            <img src="23.jpg">
+            <img src="24.jpg">
+            <img src="25.jpg">
+            <img src="26.jpg">
+            <img src="27.jpg">
+            <img src="28.jpg">
+            <img src="29.jpg">
+        </div>
+
+        <div class="dots" id="dots"></div>
     </div>
+
 </section>
 
 <!-- UBICACIÓN -->
@@ -170,10 +242,10 @@ button{
     <button class="map fade" onclick="mapa()">📍 Ver en Google Maps</button>
 </section>
 
-<!-- CONFIRMAR -->
+<!-- WHATSAPP -->
 <section>
     <h2 class="fade">Confirmar asistencia</h2>
-    <button class="wa fade" onclick="wa()">💬 WhatsApp</button>
+    <button class="wa fade" onclick="wa()">💬 Confirmar</button>
 </section>
 
 <!-- AUDIO -->
@@ -184,13 +256,13 @@ button{
 <script>
 let audio = document.getElementById("audio");
 
-/* ENTRAR */
+/* ENTRADA */
 function entrar(){
     document.getElementById("overlay").style.display="none";
     audio.play();
 }
 
-/* SCROLL ANIMADO */
+/* ANIMACIÓN SCROLL */
 let faders = document.querySelectorAll(".fade");
 
 window.addEventListener("scroll", () => {
@@ -202,20 +274,74 @@ window.addEventListener("scroll", () => {
     });
 });
 
-/* BOTONES */
+/* MAPA */
 function mapa(){
     window.open("https://maps.app.goo.gl/9MVH4WbjdRik2xXS7");
 }
 
+/* WHATSAPP */
 function wa(){
     let url="https://wa.me/595981011531?text=Confirmo mi asistencia 🎉";
     window.open(url);
 }
 
-/* PAUSAR MUSICA */
+/* GALERÍA PRO */
+const gallery = document.getElementById("gallery");
+const dotsContainer = document.getElementById("dots");
+const images = gallery.querySelectorAll("img");
+
+/* DOTS */
+images.forEach((_, i)=>{
+    let dot = document.createElement("span");
+    if(i === 0) dot.classList.add("active");
+    dotsContainer.appendChild(dot);
+});
+
+/* SCROLL DETECTOR */
+gallery.addEventListener("scroll", ()=>{
+    let index = Math.round(gallery.scrollLeft / gallery.clientWidth);
+    let dots = dotsContainer.querySelectorAll("span");
+
+    dots.forEach(d=>d.classList.remove("active"));
+    if(dots[index]) dots[index].classList.add("active");
+});
+
+/* AUTO SLIDE */
+let i = 0;
+setInterval(()=>{
+    i++;
+    if(i >= images.length) i = 0;
+    gallery.scrollTo({
+        left: i * gallery.clientWidth,
+        behavior: "smooth"
+    });
+}, 4000);
+
+/* PAUSA MUSICA */
 window.addEventListener("blur",()=>audio.pause());
 window.addEventListener("beforeunload",()=>audio.pause());
 </script>
 
 </body>
 </html>
+<script>
+/* CONFIGURA TU FECHA AQUÍ */
+const fechaEvento = new Date("2026-06-24 18:00:00").getTime();
+
+setInterval(()=>{
+
+    const ahora = new Date().getTime();
+    const diferencia = fechaEvento - ahora;
+
+    const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+    const horas = Math.floor((diferencia / (1000 * 60 * 60)) % 24);
+    const minutos = Math.floor((diferencia / (1000 * 60)) % 60);
+    const segundos = Math.floor((diferencia / 1000) % 60);
+
+    document.getElementById("days").innerText = dias;
+    document.getElementById("hours").innerText = horas;
+    document.getElementById("minutes").innerText = minutos;
+    document.getElementById("seconds").innerText = segundos;
+
+},1000);
+</script>
