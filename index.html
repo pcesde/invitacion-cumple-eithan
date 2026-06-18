@@ -8,9 +8,7 @@
 
 <title>🎉 Eithan cumple 1 añito</title>
 
-<!-- OPEN GRAPH -->
-
-<meta property="og:title" content="🎉 ¡Eithan cumple 1 añito! 🎉 ">
+<meta property="og:title" content="🎉 ¡Eithan cumple 1 añito!🎉 ">
 <meta property="og:description" content="Estás invitado a celebrar este día especial 🎂👇">
 <meta property="og:image" content="https://raw.githubusercontent.com/pcesde/invitacion-cumple-eithan/main/preview.jpg">
 <meta property="og:image:width" content="1200">
@@ -21,6 +19,8 @@
 <meta name="theme-color" content="#000000">
 
 <style>
+
+html{scroll-behavior:smooth;}
 
 body{
 margin:0;
@@ -39,8 +39,9 @@ height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-background:#000;
+background:radial-gradient(circle,#111,#000);
 z-index:9999;
+transition:opacity 0.6s ease;
 }
 
 .boton-ingresar{
@@ -69,69 +70,38 @@ gap:12px;
 z-index:999;
 }
 
-/* BOTÓN PRO */
-.btn.wa.pro{
-background:linear-gradient(135deg,#25D366,#1ebe5d);
-width:70px;
-height:70px;
+.btn.wa{
+background:#25D366;
+width:65px;
+height:65px;
 border-radius:50%;
 border:none;
 color:white;
-font-size:20px;
+font-size:22px;
 cursor:pointer;
 display:flex;
 flex-direction:column;
 align-items:center;
 justify-content:center;
-position:relative;
-overflow:hidden;
-animation:flotar 2s infinite ease-in-out;
 }
 
-.btn.wa.pro span{
-font-size:11px;
-}
-
-/* BRILLO */
-.btn.wa.pro::before{
-content:"";
-position:absolute;
-top:-50%;
-left:-50%;
-width:200%;
-height:200%;
-background:linear-gradient(120deg,transparent,rgba(255,255,255,0.4),transparent);
-transform:rotate(25deg);
-animation:brillo 3s infinite;
-}
-
-/* ANIMACIONES */
-@keyframes flotar{
-0%{transform:translateY(0);}
-50%{transform:translateY(-6px);}
-100%{transform:translateY(0);}
-}
-
-@keyframes brillo{
-0%{left:-50%;}
-100%{left:150%;}
-}
-
-/* MAPA */
 .btn.mapa,.btn.ruta{
-padding:14px;
-border:none;
+display:flex;
+align-items:center;
+gap:10px;
+padding:14px 16px;
 border-radius:18px;
-color:white;
+border:none;
 cursor:pointer;
+color:white;
 }
 
-.btn.mapa{background:#4285F4;}
-.btn.ruta{background:#FF9800;}
+.btn.mapa{background:linear-gradient(135deg,#4285F4,#5BA7FF);}
+.btn.ruta{background:linear-gradient(135deg,#FF9800,#FFB74D);}
 
-.texto-lugar{font-size:12px;}
+.texto-lugar{font-size:13px;font-weight:bold;}
 
-/* POPUP */
+/* POPUP RSVP */
 .popup{
 position:fixed;
 top:0;
@@ -146,43 +116,29 @@ z-index:9999;
 }
 
 .popup-contenido{
-background:white;
+background:#fff;
 padding:25px;
 border-radius:20px;
 text-align:center;
+max-width:320px;
+animation:fadeIn 0.3s ease;
 }
 
-.si{background:#25D366;color:white;padding:10px;border:none;border-radius:10px;}
-.no{background:#e74c3c;color:white;padding:10px;border:none;border-radius:10px;}
-
-/* NOTIFICACIÓN */
-.notificacion-rsvp{
-position:fixed;
-bottom:95px;
-right:20px;
-background:#ff4757;
-color:white;
-padding:10px 14px;
-border-radius:20px;
-font-size:13px;
+.popup button{
+margin:10px;
+padding:12px 20px;
+border:none;
+border-radius:12px;
+cursor:pointer;
 font-weight:bold;
-animation:latido 1.5s infinite;
-z-index:1000;
 }
 
-.notificacion-rsvp::after{
-content:"";
-position:absolute;
-bottom:-8px;
-right:20px;
-border:8px solid transparent;
-border-top-color:#ff4757;
-}
+.si{background:#25D366;color:white;}
+.no{background:#e74c3c;color:white;}
 
-@keyframes latido{
-0%{transform:scale(1);}
-50%{transform:scale(1.08);}
-100%{transform:scale(1);}
+@keyframes fadeIn{
+from{transform:scale(0.8);opacity:0;}
+to{transform:scale(1);opacity:1;}
 }
 
 </style>
@@ -191,49 +147,44 @@ border-top-color:#ff4757;
 
 <body>
 
-<!-- BOTONES -->
-
 <div class="botones">
 
-<button class="btn wa pro" onclick="abrirPopup()">
-💬 <span>Confirmar Aquí🎉</span>
+<button class="btn wa" onclick="abrirPopup()">
+💬 <span>Confirmar aquí</span>
 </button>
 
-<button class="btn mapa" onclick="ubicacion()">📍</button> <button class="btn ruta" onclick="comoLlegar()">🧭</button>
+<button class="btn mapa" onclick="ubicacion()">
+📍 Dirección
+<div class="texto-lugar">ScutiPARK<br>San Lorenzo</div>
+</button>
+
+<button class="btn ruta" onclick="comoLlegar()">cómo llegar🧭</button>
 
 </div>
-
-<!-- NOTIFICACIÓN -->
-
-<div class="notificacion-rsvp" id="noti">
-¡Confirma aquí! 🎉
-</div>
-
-<!-- POPUP -->
 
 <div id="popup" class="popup" onclick="cerrarPopup(event)">
 <div class="popup-contenido" onclick="event.stopPropagation()">
 
 <h3>¿Vas a asistir?</h3>
 
-<button class="si" onclick="confirmarSi()">Sí asistiré soy:</button> <button class="no" onclick="confirmarNo()">No podré soy: </button>
+<button class="si" onclick="confirmarSi()">✅ Sí asistiré</button> <button class="no" onclick="confirmarNo()">❌ No podré</button>
+
+<br><br>
+
+<button onclick="cerrarPopup()">Cancelar</button>
 
 </div>
 </div>
-
-<!-- INICIO -->
 
 <div id="pantallaInicio" class="pantalla-inicio">
-<button class="boton-ingresar" onclick="comenzarInvitacion()">ABRIR INVITACIÓN 🎉</button>
+<button class="boton-ingresar" onclick="comenzarInvitacion()">
+ABRIR INVITACIÓN 🎉
+</button>
 </div>
-
-<!-- AUDIO -->
 
 <audio id="musicaFondo" loop>
 <source src="musica-cumple.mp3" type="audio/mpeg">
 </audio>
-
-<!-- GALERIA -->
 
 <div class="galeria">
 <div class="imagen"><img src="./1.svg"></div>
@@ -244,17 +195,27 @@ border-top-color:#ff4757;
 
 <script>
 
-const audio=document.getElementById("musicaFondo");
+const audio = document.getElementById("musicaFondo");
+let musicaActiva = false;
 
+/* INICIO */
 function comenzarInvitacion(){
-document.getElementById("pantallaInicio").style.display="none";
+const pantalla = document.getElementById("pantallaInicio");
+pantalla.style.opacity="0";
+
+setTimeout(()=>{
+pantalla.style.display="none";
 document.body.style.overflow="auto";
-audio.play().catch(()=>{});
+},600);
+
+audio.play().then(()=>{
+musicaActiva = true;
+}).catch(()=>{});
 }
 
+/* POPUP */
 function abrirPopup(){
 document.getElementById("popup").style.display="flex";
-document.getElementById("noti").style.display="none";
 }
 
 function cerrarPopup(e){
@@ -263,29 +224,58 @@ document.getElementById("popup").style.display="none";
 }
 }
 
+/* WHATSAPP */
 function confirmarSi(){
-let msg="🎉 Confirmo asistencia al cumple de Eithan. Nombre:";
+let msg="🎉 Confirmo asistencia al cumple de Eithan.\nNombre:";
 window.open("https://wa.me/595981011531?text="+encodeURIComponent(msg));
 }
 
 function confirmarNo(){
-let msg="No podré asistir al cumple de Eithan. Nombre:";
+let msg="Hola, no podré asistir al cumple de Eithan.\nNombre:";
 window.open("https://wa.me/595981011531?text="+encodeURIComponent(msg));
 }
 
+/* MAPA */
 function ubicacion(){
 window.open("https://maps.app.goo.gl/o5QvAw4BDHEiffHUA");
 }
 
 function comoLlegar(){
-window.open("https://www.google.com/maps/dir/?api=1&destination=ScutiPARK");
+let destino="ScutiPARK San Lorenzo Paraguay";
+window.open("https://www.google.com/maps/dir/?api=1&destination="+encodeURIComponent(destino));
 }
 
-/* OCULTAR NOTIFICACIÓN */
-setTimeout(()=>{
-let n=document.getElementById("noti");
-if(n) n.style.display="none";
-},6000);
+/* 🔊 CONTROL INTELIGENTE DEL AUDIO */
+
+// Minimizar / cambiar pestaña
+document.addEventListener("visibilitychange",()=>{
+if(!musicaActiva) return;
+
+if(document.hidden){
+audio.pause();
+}else{
+audio.play().catch(()=>{});
+}
+});
+
+// Salir de la ventana
+window.addEventListener("blur", ()=>{
+if(musicaActiva){
+audio.pause();
+}
+});
+
+// Volver a la ventana
+window.addEventListener("focus", ()=>{
+if(musicaActiva){
+audio.play().catch(()=>{});
+}
+});
+
+// Cerrar o recargar
+window.addEventListener("beforeunload", ()=>{
+audio.pause();
+});
 
 </script>
 
