@@ -22,8 +22,6 @@
 
 <style>
 
-html{scroll-behavior:smooth;}
-
 body{
 margin:0;
 background:#000;
@@ -41,9 +39,8 @@ height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-background:radial-gradient(circle,#111,#000);
+background:#000;
 z-index:9999;
-transition:opacity 0.6s ease;
 }
 
 .boton-ingresar{
@@ -72,38 +69,69 @@ gap:12px;
 z-index:999;
 }
 
-.btn.wa{
-background:#25D366;
-width:65px;
-height:65px;
+/* BOTÓN PRO */
+.btn.wa.pro{
+background:linear-gradient(135deg,#25D366,#1ebe5d);
+width:70px;
+height:70px;
 border-radius:50%;
 border:none;
 color:white;
-font-size:22px;
+font-size:20px;
 cursor:pointer;
 display:flex;
 flex-direction:column;
 align-items:center;
 justify-content:center;
+position:relative;
+overflow:hidden;
+animation:flotar 2s infinite ease-in-out;
 }
 
+.btn.wa.pro span{
+font-size:11px;
+}
+
+/* BRILLO */
+.btn.wa.pro::before{
+content:"";
+position:absolute;
+top:-50%;
+left:-50%;
+width:200%;
+height:200%;
+background:linear-gradient(120deg,transparent,rgba(255,255,255,0.4),transparent);
+transform:rotate(25deg);
+animation:brillo 3s infinite;
+}
+
+/* ANIMACIONES */
+@keyframes flotar{
+0%{transform:translateY(0);}
+50%{transform:translateY(-6px);}
+100%{transform:translateY(0);}
+}
+
+@keyframes brillo{
+0%{left:-50%;}
+100%{left:150%;}
+}
+
+/* MAPA */
 .btn.mapa,.btn.ruta{
-display:flex;
-align-items:center;
-gap:10px;
-padding:14px 16px;
-border-radius:18px;
+padding:14px;
 border:none;
-cursor:pointer;
+border-radius:18px;
 color:white;
+cursor:pointer;
 }
 
-.btn.mapa{background:linear-gradient(135deg,#4285F4,#5BA7FF);}
-.btn.ruta{background:linear-gradient(135deg,#FF9800,#FFB74D);}
+.btn.mapa{background:#4285F4;}
+.btn.ruta{background:#FF9800;}
 
-.texto-lugar{font-size:13px;font-weight:bold;}
+.texto-lugar{font-size:12px;}
 
-/* POPUP RSVP */
+/* POPUP */
 .popup{
 position:fixed;
 top:0;
@@ -118,29 +146,43 @@ z-index:9999;
 }
 
 .popup-contenido{
-background:#fff;
+background:white;
 padding:25px;
 border-radius:20px;
 text-align:center;
-max-width:320px;
-animation:fadeIn 0.3s ease;
 }
 
-.popup button{
-margin:10px;
-padding:12px 20px;
-border:none;
-border-radius:12px;
-cursor:pointer;
+.si{background:#25D366;color:white;padding:10px;border:none;border-radius:10px;}
+.no{background:#e74c3c;color:white;padding:10px;border:none;border-radius:10px;}
+
+/* NOTIFICACIÓN */
+.notificacion-rsvp{
+position:fixed;
+bottom:95px;
+right:20px;
+background:#ff4757;
+color:white;
+padding:10px 14px;
+border-radius:20px;
+font-size:13px;
 font-weight:bold;
+animation:latido 1.5s infinite;
+z-index:1000;
 }
 
-.si{background:#25D366;color:white;}
-.no{background:#e74c3c;color:white;}
+.notificacion-rsvp::after{
+content:"";
+position:absolute;
+bottom:-8px;
+right:20px;
+border:8px solid transparent;
+border-top-color:#ff4757;
+}
 
-@keyframes fadeIn{
-from{transform:scale(0.8);opacity:0;}
-to{transform:scale(1);opacity:1;}
+@keyframes latido{
+0%{transform:scale(1);}
+50%{transform:scale(1.08);}
+100%{transform:scale(1);}
 }
 
 </style>
@@ -153,17 +195,18 @@ to{transform:scale(1);opacity:1;}
 
 <div class="botones">
 
-<button class="btn wa" onclick="abrirPopup()">
-💬 <span>RSVP</span>
+<button class="btn wa pro" onclick="abrirPopup()">
+💬 <span>Confirmar 🎉</span>
 </button>
 
-<button class="btn mapa" onclick="ubicacion()">
-📍
-<div class="texto-lugar">ScutiPARK<br>San Lorenzo</div>
-</button>
+<button class="btn mapa" onclick="ubicacion()">📍</button> <button class="btn ruta" onclick="comoLlegar()">🧭</button>
 
-<button class="btn ruta" onclick="comoLlegar()">🧭</button>
+</div>
 
+<!-- NOTIFICACIÓN -->
+
+<div class="notificacion-rsvp" id="noti">
+¡Confirma aquí! 🎉
 </div>
 
 <!-- POPUP -->
@@ -173,11 +216,7 @@ to{transform:scale(1);opacity:1;}
 
 <h3>¿Vas a asistir?</h3>
 
-<button class="si" onclick="confirmarSi()">✅ Sí asistiré</button> <button class="no" onclick="confirmarNo()">❌ No podré</button>
-
-<br><br>
-
-<button onclick="cerrarPopup()">Cancelar</button>
+<button class="si" onclick="confirmarSi()">Sí asistiré</button> <button class="no" onclick="confirmarNo()">No podré</button>
 
 </div>
 </div>
@@ -185,9 +224,7 @@ to{transform:scale(1);opacity:1;}
 <!-- INICIO -->
 
 <div id="pantallaInicio" class="pantalla-inicio">
-<button class="boton-ingresar" onclick="comenzarInvitacion()">
-ABRIR INVITACIÓN 🎉
-</button>
+<button class="boton-ingresar" onclick="comenzarInvitacion()">ABRIR INVITACIÓN 🎉</button>
 </div>
 
 <!-- AUDIO -->
@@ -207,22 +244,17 @@ ABRIR INVITACIÓN 🎉
 
 <script>
 
-const audio = document.getElementById("musicaFondo");
+const audio=document.getElementById("musicaFondo");
 
-/* INICIO */
 function comenzarInvitacion(){
-const pantalla = document.getElementById("pantallaInicio");
-pantalla.style.opacity="0";
-setTimeout(()=>{
-pantalla.style.display="none";
+document.getElementById("pantallaInicio").style.display="none";
 document.body.style.overflow="auto";
-},600);
 audio.play().catch(()=>{});
 }
 
-/* POPUP */
 function abrirPopup(){
 document.getElementById("popup").style.display="flex";
+document.getElementById("noti").style.display="none";
 }
 
 function cerrarPopup(e){
@@ -231,32 +263,29 @@ document.getElementById("popup").style.display="none";
 }
 }
 
-/* WHATSAPP RESPUESTAS */
 function confirmarSi(){
-let msg="🎉 Confirmo asistencia al cumple de Eithan.\nNombre:";
+let msg="🎉 Confirmo asistencia al cumple de Eithan. Nombre:";
 window.open("https://wa.me/595981011531?text="+encodeURIComponent(msg));
 }
 
 function confirmarNo(){
-let msg="Hola, no podré asistir al cumple de Eithan.\nNombre:";
+let msg="No podré asistir al cumple de Eithan. Nombre:";
 window.open("https://wa.me/595981011531?text="+encodeURIComponent(msg));
 }
 
-/* MAPA */
 function ubicacion(){
 window.open("https://maps.app.goo.gl/o5QvAw4BDHEiffHUA");
 }
 
 function comoLlegar(){
-let destino="ScutiPARK San Lorenzo Paraguay";
-window.open("https://www.google.com/maps/dir/?api=1&destination="+encodeURIComponent(destino));
+window.open("https://www.google.com/maps/dir/?api=1&destination=ScutiPARK");
 }
 
-/* AUDIO CONTROL */
-document.addEventListener("visibilitychange",()=>{
-if(document.hidden){audio.pause();}
-else{audio.play().catch(()=>{});}
-});
+/* OCULTAR NOTIFICACIÓN */
+setTimeout(()=>{
+let n=document.getElementById("noti");
+if(n) n.style.display="none";
+},6000);
 
 </script>
 
